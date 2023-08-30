@@ -22,7 +22,7 @@ Creación, puesta en marcha y coordinación de hilos.
 ![](./img/Parte1Funcionando.png)<br>
 
 
-#####Parte II 
+##### Parte II 
 
 
 Para este ejercicio se va a trabajar con un simulador de carreras de galgos (carpeta parte2), cuya representación gráfica corresponde a la siguiente figura:
@@ -48,23 +48,51 @@ Taller.
 
     a.  La acción de iniciar la carrera y mostrar los resultados se realiza a partir de la línea 38 de MainCanodromo.
 
-    b.  Puede utilizarse el método join() de la clase Thread para sincronizar el hilo que inicia la carrera, con la finalización de los hilos de los galgos.
+    b.  Puede utilizarse el método join() de la clase Thread para sincronizar el hilo que inicia la carrera, con la finalización de los hilos de los galgos.<br>
+
+    Utilizamos el metodo join() de la clase Thread para solucionarlo: <br>
+
+    ![](./img/Parte2Punto1.png)
 
 2.  Una vez corregido el problema inicial, corra la aplicación varias
     veces, e identifique las inconsistencias en los resultados de las
     mismas viendo el ‘ranking’ mostrado en consola (algunas veces
     podrían salir resultados válidos, pero en otros se pueden presentar
     dichas inconsistencias). A partir de esto, identifique las regiones
-    críticas () del programa.
+    críticas () del programa.<br>
+
+    Podemos ver que en esta carrera hubieron dos ganadores:<br>
+
+    ![](./img/Parte2Punto2.png)
 
 3.  Utilice un mecanismo de sincronización para garantizar que a dichas
     regiones críticas sólo acceda un hilo a la vez. Verifique los
-    resultados.
+    resultados.<br>
+
+    Dentro de la clase Galgo encontramos una region critica, en la cual el hilo consulta cual es la última posición alcanzada, se la asigna a si mismo y luego aumenta en 1 la última posición alcanzada. En esa parte decidimos establecer un bloque sincronizado con el fin de que solo un hilo consulte la ultima posición y la aumente, para que no hubieran dos hilos consultando a la misma vez y se generara que hubieran dos galgos ganadores. <br>
+
+
+    ![](./img/Parte2Punto3.png)
 
 4.  Implemente las funcionalidades de pausa y continuar. Con estas,
     cuando se haga clic en ‘Stop’, todos los hilos de los galgos
     deberían dormirse, y cuando se haga clic en ‘Continue’ los mismos
-    deberían despertarse y continuar con la carrera. Diseñe una solución que permita hacer esto utilizando los mecanismos de sincronización con las primitivas de los Locks provistos por el lenguaje (wait y notifyAll).
+    deberían despertarse y continuar con la carrera. Diseñe una solución que permita hacer esto utilizando los mecanismos de sincronización con las primitivas de los Locks provistos por el lenguaje (wait y notifyAll).<br>
+
+    Para implementar las funciones añadimos un atributo publico (carreraPausada) en la clase MainCanodromo.java con el fin de conocer el estado de la carrera:<br>
+
+    ![](./img/Parte2Punto4-1.png)<br>
+
+    Luego en los listener de los botones modificamos el estado de la variable y cuando se presiona el boton "Continue" notificamos a todos los hilos para que continuen la carrera:<br>
+
+    ![](./img/Parte2Punto4-2.png)<br>
+
+    Ahora en la clase Galgo.java añadimos un condicional que evalua el estado de la carrera y deja a todos los hilos en espera si es necesario:<br>
+
+    ![](./img/Parte2Punto4-3.png)<br>
+    
+
+
 
 
 ## Criterios de evaluación
