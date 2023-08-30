@@ -8,6 +8,7 @@ public class PrimeFinderThread extends Thread{
 
 	
 	int a,b, number;
+	boolean stop = false;
 	ArrayList<ArrayList<Integer>> primesFinded;
 
 	
@@ -24,16 +25,24 @@ public class PrimeFinderThread extends Thread{
 		this.number = number;
 		this.a = a;
 		this.b = b;
+		this.primesFinded = primesFinded;
 	}
 
 	public void run(){
 		for (int i=a;i<=b;i++){						
 			if (isPrime(i)){
-				primesFinded.get(number).add(i);
+				synchronized (primesFinded){
+					primesFinded.get(number).add(i);
+					if(stop){
+						try{
+							primesFinded.wait();
+						}catch(Exception e){
+							System.out.println(e);
+						}					
+					}
+				}
 			}
 		}
-		
-		
 	}
 
 	public int getNumber(){
@@ -53,6 +62,16 @@ public class PrimeFinderThread extends Thread{
 		return primes;
 	}
 	
+	public void setStop(boolean stop){
+		this.stop = stop;
+	}
+
+	public void resumeSearch(){
+		synchronized (primesFinded){
+			this.stop = false;
+			primesFinded.notify();
+		}
+	}
 	
 	
 }

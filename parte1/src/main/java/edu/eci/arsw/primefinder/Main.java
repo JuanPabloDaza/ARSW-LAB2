@@ -1,11 +1,10 @@
 package edu.eci.arsw.primefinder;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.TimerTask;
 
-import javax.swing.Timer;
+import java.util.Timer;
 
 public class Main {
 
@@ -15,7 +14,6 @@ public class Main {
 		
 		for(int i = 0; i < 3; i++){
 			primesFinded.add(new ArrayList<Integer>());
-			System.out.println(primesFinded.get(i).toString());
 		}
 		
 		ArrayList<PrimeFinderThread> threads = new ArrayList<>();
@@ -28,34 +26,33 @@ public class Main {
 			thread.start();
 		}
 
-		primesFinded.get(0);
+		Timer timer = new Timer();
 
-		while(threads.get(0).isAlive() || threads.get(1).isAlive() || threads.get(2).isAlive()){
-
-			Timer timer = new Timer(5000, new ActionListener(){
-                @Override
-                public void actionPerformed(ActionEvent e) {
-					synchronized (primesFinded){
-						try{
-							primesFinded.wait();
-						}catch(InterruptedException ex){
-							System.out.println(ex);
-						}
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run(){
+				for(PrimeFinderThread thread : threads){
+					thread.setStop(true);
+				}
+                for(PrimeFinderThread thread : threads){
+					System.out.println("El hilo: " + (thread.getNumber()+1) + " Encontro los siguientes numeros: " + primesFinded.get(thread.getNumber()).size());
+				}
+				System.out.println("Presione enter para continuar. ");
+				String read;
+				Scanner scanner = new Scanner(System.in);
+				read = scanner.nextLine();
+				if(read != null){
+					scanner.close();
+					System.out.println("Continuando Busqueda...");
+					for(PrimeFinderThread thread : threads){
+						synchronized (thread) {
+							thread.resumeSearch();
+						} 
 					}
-                    for(PrimeFinderThread thread : threads){
-						System.out.println("El hilo: " + (thread.getNumber()+1) + " Encontro los siguientes numeros: " + primesFinded.get(thread.getNumber()));
-					}
-					System.out.println("Presione enter para continuar. ");
-					String read;
-					Scanner scanner = new Scanner(System.in);
-					read = scanner.nextLine();
-					if(read != null){
-						primesFinded.notifyAll();
-					}
-                }
-            });
+				}
 	
-		}		
+			}
+		}, 5000);			
 	}
 	
 }

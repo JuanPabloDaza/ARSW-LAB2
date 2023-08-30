@@ -1,10 +1,11 @@
-Escuela Colombiana de Ingeniería
+# Escuela Colombiana de Ingeniería
 
-Arquitecturas de Software – ARSW
+## Arquitecturas de Software – ARSW
+## Juan Pablo Daza Pinzon - Juan Sebastian Rodriguez Peña
 
-####Taller – programación concurrente, condiciones de carrera y sincronización de hilos. EJERCICIO INDIVIDUAL O EN PAREJAS.
+#### Taller – programación concurrente, condiciones de carrera y sincronización de hilos. EJERCICIO INDIVIDUAL O EN PAREJAS.
 
-#####Parte I – Antes de terminar la clase.
+##### Parte I – Antes de terminar la clase.
 
 Creación, puesta en marcha y coordinación de hilos.
 
@@ -16,8 +17,9 @@ Creación, puesta en marcha y coordinación de hilos.
 
 ![](./img/UsoDeCPU3Hilos.png)
 
-3. Lo que se le ha pedido es: debe modificar la aplicación de manera que cuando hayan transcurrido 5 segundos desde que se inició la ejecución, se detengan todos los hilos y se muestre el número de primos encontrados hasta el momento. Luego, se debe esperar a que el usuario presione ENTER para reanudar la ejecución de los mismo.
+3. Lo que se le ha pedido es: debe modificar la aplicación de manera que cuando hayan transcurrido 5 segundos desde que se inició la ejecución, se detengan todos los hilos y se muestre el número de primos encontrados hasta el momento. Luego, se debe esperar a que el usuario presione ENTER para reanudar la ejecución de los mismo.<br>
 
+![](./img/Parte1Funcionando.png)<br>
 
 
 #####Parte II 
